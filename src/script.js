@@ -27,20 +27,9 @@ document.addEventListener('DOMContentLoaded', function () {
     window.addEventListener('scroll', revealSection);
     revealSection();
 
-    // Função para envio do formulário com EmailJS e reCAPTCHA
+    // Função para envio do formulário com EmailJS
     function sendEmail(e) {
         e.preventDefault();
-
-        // --- ALTERAÇÕES AQUI ---
-
-        // 1. Pega a resposta do reCAPTCHA
-        const recaptchaResponse = grecaptcha.getResponse();
-
-        // 2. Verifica se o reCAPTCHA foi preenchido
-        if (recaptchaResponse.length === 0) {
-            alert("Por favor, complete o reCAPTCHA.");
-            return; // Para a execução se não foi preenchido
-        }
         
         const now = new Date();
         const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -51,18 +40,13 @@ document.addEventListener('DOMContentLoaded', function () {
             time: time,
             message: document.getElementById("message").value,
             email: document.getElementById("email").value,
-            // 3. Adiciona a resposta do reCAPTCHA ao objeto de parâmetros
-            'g-recaptcha-response': recaptchaResponse
         };
-
-        // --- FIM DAS ALTERAÇÕES ---
-
+        
         // Usa as variáveis carregadas do .env
         emailjs.send(serviceID, templateID, parms)
             .then(function() {
                 alert("Mensagem enviada com sucesso!");
                 document.getElementById("contactForm").reset();
-                grecaptcha.reset(); // Reseta o reCAPTCHA também
             }, function(error) {
                 alert("Erro ao enviar a mensagem: " + JSON.stringify(error));
             });
