@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Currículo de Pedro Franco</title>
-    </head>
+</head>
 
 <body>
     <header>
@@ -15,20 +15,25 @@
             <p>Desenvolvedor Full Stack | entusiasta de tecnologia</p>
         </div>
     </header>
+
     <nav>
         <ul>
             <li><a href="#sobre">Sobre</a></li>
             <li><a href="#experiencia">Experiência</a></li>
             <li><a href="#formacao">Formação</a></li>
+            <li><a href="#redes">Redes Sociais</a></li>
+            <li><a href="#eventos">Eventos</a></li>
             <li><a href="#contato">Contato</a></li>
         </ul>
     </nav>
+
     <main>
         <section id="sobre">
             <h2>Sobre Mim</h2>
             <p>Sou um desenvolvedor apaixonado por tecnologia, com experiência em projetos web e mobile. Busco sempre
                 aprender e compartilhar conhecimento.</p>
         </section>
+
         <section id="experiencia">
             <h2>Experiência</h2>
             <ul>
@@ -48,6 +53,7 @@
                 </li>
             </ul>
         </section>
+
         <section id="formacao">
             <h2>Formação</h2>
             <ul>
@@ -60,20 +66,36 @@
                 </li>
             </ul>
         </section>
+
         <section id="redes" class="redes-sociais">
             <h2>Redes Sociais</h2>
             <div class="social-links" style="display: flex; gap: 1.2rem; align-items: center; flex-wrap: wrap;">
-                <a href="https://www.linkedin.com/in/pedro-ferreira-franco/" target="_blank" title="LinkedIn" style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg" alt="LinkedIn" class="social-icon" style="width: 22px; height: 22px;">pedro-ferreira-franco
+                <a href="https://www.linkedin.com/in/pedro-ferreira-franco/" target="_blank" title="LinkedIn"
+                    style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/linkedin/linkedin-original.svg"
+                        alt="LinkedIn" class="social-icon" style="width: 22px; height: 22px;">pedro-ferreira-franco
                 </a>
-                <a href="https://www.instagram.com/" target="_blank" title="Instagram" style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
-                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram" class="social-icon" style="width: 22px; height: 22px;">@pedrofranco_11
+                <a href="https://www.instagram.com/" target="_blank" title="Instagram"
+                    style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
+                    <img src="https://cdn.jsdelivr.net/gh/simple-icons/simple-icons/icons/instagram.svg" alt="Instagram"
+                        class="social-icon" style="width: 22px; height: 22px;">@pedrofranco_11
                 </a>
-                <a href="https://github.com/PedroFerreiraFranco" target="_blank" title="GitHub" style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
-                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub" class="social-icon" style="width: 22px; height: 22px;">PedroFerreiraFranco
+                <a href="https://github.com/PedroFerreiraFranco" target="_blank" title="GitHub"
+                    style="display: flex; align-items: center; gap: 0.4rem; font-size: 1rem; text-decoration: none; color: var(--text, #eaeaea);">
+                    <img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/github/github-original.svg" alt="GitHub"
+                        class="social-icon" style="width: 22px; height: 22px;">PedroFerreiraFranco
                 </a>
             </div>
         </section>
+
+        <section id="eventos">
+            <h2>Eventos</h2>
+            <div class="eventos-controles">
+                <button id="sortBtn" data-order="desc">Ordenar por mais antigos</button>
+            </div>
+            <div id="eventos-container"></div>
+        </section>
+
         <section id="contato">
             <h2>Contato</h2>
             <form id="contactForm">
@@ -86,9 +108,22 @@
             <div id="formMessage"></div>
         </section>
     </main>
+
     <footer>
         <p>&copy; 2024 Pedro Franco. Todos os direitos reservados.</p>
     </footer>
+
+    <div id="eventoModal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="modal-close">&times;</button>
+            <img src="" alt="Imagem do Evento" id="modalImg" style="display: none;">
+            <h2 id="modalTitulo"></h2>
+            <p id="modalData"></p>
+            <div id="modalDescricao"></div>
+        </div>
+    </div>
+
+    <script type="module" src="/src/prismic.js"></script>
     <script type="module" src="/src/script.js"></script>
 </body>
 

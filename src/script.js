@@ -1,6 +1,7 @@
 import './style.css';
 import emailjs from '@emailjs/browser';
-import profileImage from './img/fotoPerfil.JPEG';
+import profileImage from './img/fotoPerfilIA.png';
+import * as prismic from 'https://cdn.skypack.dev/@prismicio/client';
 
 // Carrega a imagem de perfil dinamicamente
 document.querySelector('.avatar').src = profileImage;
