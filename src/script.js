@@ -1,7 +1,6 @@
 import './style.css';
 import emailjs from '@emailjs/browser';
-import profileImage from './img/fotoPerfilIA.png';
-import * as prismic from 'https://cdn.skypack.dev/@prismicio/client';
+import profileImage from './img/fotoPerfil.JPEG';
 
 // Carrega a imagem de perfil dinamicamente
 document.querySelector('.avatar').src = profileImage;
@@ -15,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Inicializa o EmailJS
     emailjs.init({ publicKey });
 
+    // Animação de fade-in das seções
     const sections = document.querySelectorAll('main section');
     const revealSection = () => {
         const triggerBottom = window.innerHeight * 0.85;
@@ -43,7 +43,6 @@ document.addEventListener('DOMContentLoaded', function () {
             email: document.getElementById("email").value,
         };
         
-        // Usa as variáveis carregadas do .env
         emailjs.send(serviceID, templateID, parms)
             .then(function() {
                 alert("Mensagem enviada com sucesso!");
@@ -57,5 +56,24 @@ document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('contactForm');
     if (form) {
         form.addEventListener('submit', sendEmail);
+    }
+    
+    // --- LÓGICA DO MENU SANDUÍCHE ---
+    const hamburgerButton = document.getElementById('hamburger-button');
+    const navMenu = document.getElementById('nav-menu');
+
+    if (hamburgerButton && navMenu) {
+        hamburgerButton.addEventListener('click', () => {
+            hamburgerButton.classList.toggle('is-active');
+            navMenu.classList.toggle('is-active');
+        });
+
+        // Opcional: fechar o menu ao clicar em um link
+        navMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                hamburgerButton.classList.remove('is-active');
+                navMenu.classList.remove('is-active');
+            });
+        });
     }
 });

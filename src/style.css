@@ -13,6 +13,10 @@
     --button-hover: #1de9b6;
 }
 
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
 body {
     background: var(--bg-color);
     color: var(--text);
@@ -21,11 +25,19 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    /* ADICIONADO: Previne a barra de rolagem horizontal indesejada */
+    overflow-x: hidden;
+}
+
+/* ADICIONADO: Garante que textos longos quebrem a linha */
+h1, h2, h3, h4, p, a, strong {
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 header {
     background: var(--container-bg);
-    padding: 2rem 0 1rem 0;
+    padding: 2rem 1rem 1rem 1rem;
     text-align: center;
     box-shadow: 0 2px 8px #0004;
 }
@@ -41,7 +53,7 @@ header {
 
 h1 {
     margin: 0.2em 0 0.1em 0;
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     color: var(--primary);
 }
 
@@ -50,38 +62,149 @@ header p {
     font-size: 1.1rem;
 }
 
+/* --- ESTILOS DO MENU (MOBILE-FIRST) --- */
 nav {
     background: var(--container-bg);
     box-shadow: 0 2px 8px #0002;
-}
-nav ul {
     display: flex;
-    justify-content: center;
-    gap: 2rem;
-    list-style: none;
-    margin: 0;
-    padding: 0.7rem 0;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0.5rem 1rem;
+    height: 60px; /* Altura fixa para alinhar melhor o botão */
 }
-nav a {
+
+.hamburger {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    width: 2.25rem;
+    height: 2.25rem;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    /* ADICIONADO: Garante que o botão fique acima do menu overlay */
+    z-index: 11; 
+    position: relative; /* Mudado para relative para o z-index funcionar bem aqui */
+}
+.hamburger .bar {
+    width: 2.25rem;
+    height: 0.25rem;
+    background-color: var(--text);
+    border-radius: 10px;
+    transition: all 0.3s linear;
+}
+
+/* Animação do botão quando o menu está ativo */
+.hamburger.is-active .bar {
+    background-color: var(--primary); /* Muda a cor para indicar que está ativo */
+}
+.hamburger.is-active .bar:nth-child(1) {
+    transform: translateY(10px) rotate(45deg);
+}
+.hamburger.is-active .bar:nth-child(2) {
+    opacity: 0;
+}
+.hamburger.is-active .bar:nth-child(3) {
+    transform: translateY(-10px) rotate(-45deg);
+}
+
+/* -- REFORMULAÇÃO DO MENU DROPDOWN -- */
+#nav-menu {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem; /* Espaçamento entre os links */
+    
+    /* MUDADO: Agora é um overlay de tela cheia */
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    
+    /* Fundo com transparência e desfoque */
+    background: rgba(24, 26, 27, 0.95);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+
+    /* Garante que o menu fique acima do conteúdo principal */
+    z-index: 10;
+}
+#nav-menu.is-active {
+    display: flex;
+}
+
+#nav-menu li {
+    padding: 0;
+    text-align: center;
+}
+#nav-menu a {
     color: var(--text);
     text-decoration: none;
     font-weight: 500;
+    font-size: 1.8rem; /* Letras maiores para o overlay */
     transition: color 0.2s;
 }
-nav a:hover {
+#nav-menu a:hover {
     color: var(--primary);
 }
 
+
+/* --- LAYOUT PRINCIPAL E SEÇÕES --- */
 main {
     flex: 1; 
     max-width: 900px;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
     background: var(--container-bg);
     border-radius: 12px;
     box-shadow: 0 4px 24px #0005;
-    padding: 2rem;
+    padding: 1.5rem;
     width: 100%;
 }
+
+/* --- MEDIA QUERIES PARA TELAS MAIORES --- */
+@media (min-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+    }
+
+    nav {
+        justify-content: center;
+        padding: 0;
+        height: auto;
+    }
+    
+    .hamburger {
+        display: none;
+    }
+
+    #nav-menu {
+        /* Reverte para o estilo de desktop */
+        display: flex;
+        position: static;
+        flex-direction: row;
+        width: auto;
+        height: auto;
+        background: none;
+        backdrop-filter: none;
+        box-shadow: none;
+        padding: 0.7rem 0;
+        gap: 2rem;
+        z-index: 1;
+    }
+    #nav-menu a {
+        font-size: 1rem; /* Volta ao tamanho normal */
+    }
+
+    main {
+        padding: 2rem;
+        margin: 2rem auto;
+    }
+}
+
+/* O restante do CSS permanece o mesmo */
 section {
     margin-bottom: 2.5rem;
 }
@@ -152,22 +275,15 @@ footer {
     margin-top: 2rem;
 }
 
-section {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s, transform 0.8s;
-}
 section.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
-/* === ESTILOS DOS CONTROLES DE EVENTOS === */
 .eventos-controles {
     margin-bottom: 1.5rem;
     text-align: right;
 }
-
 #sortBtn {
     background-color: var(--input-bg);
     color: var(--text-secondary);
@@ -179,20 +295,16 @@ section.visible {
     font-weight: 500;
     transition: all 0.2s ease;
 }
-
 #sortBtn:hover {
     background-color: #3a3f42;
     border-color: var(--primary);
     color: var(--primary);
 }
-
-/* === ESTILOS PARA A SEÇÃO DE EVENTOS === */
 #eventos-container {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
 }
-
 .evento-card {
     background: #2a2f33;
     border-radius: 12px;
@@ -203,23 +315,19 @@ section.visible {
     flex-direction: column;
     cursor: pointer;
 }
-
 .evento-card:hover {
     transform: translateY(-5px);
     box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
-
 .evento-card .card-img {
     width: 100%;
     height: 180px;
     object-fit: cover;
 }
-
 .evento-card .card-texto {
     padding: 1.2rem;
     flex-grow: 1;
 }
-
 .evento-card .card-texto h1,
 .evento-card .card-texto h2,
 .evento-card .card-texto h3 {
@@ -229,12 +337,9 @@ section.visible {
     margin-bottom: 0.75rem;
     font-weight: 500;
 }
-
 .evento-card .card-descricao {
     display: none;
 }
-
-/* === ESTILOS DA JANELA MODAL === */
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -249,11 +354,9 @@ section.visible {
     backdrop-filter: blur(5px);
     -webkit-backdrop-filter: blur(5px);
 }
-
 .modal-overlay.visible {
     display: flex;
 }
-
 .modal-content {
     background: var(--container-bg);
     padding: 2rem;
@@ -266,7 +369,6 @@ section.visible {
     box-shadow: 0 5px 25px rgba(0,0,0,0.5);
     border: 1px solid var(--border);
 }
-
 .modal-close {
     position: absolute;
     top: 0.8rem;
@@ -282,7 +384,6 @@ section.visible {
 .modal-close:hover {
     color: var(--primary);
 }
-
 #modalImg {
     width: 100%;
     height: auto;
@@ -291,23 +392,44 @@ section.visible {
     border-radius: 8px;
     margin-bottom: 1.5rem;
 }
-
 #modalTitulo {
     color: var(--primary);
     margin-top: 0;
     margin-bottom: 0.5rem;
     font-size: 2rem;
 }
-
 #modalData {
     color: var(--text-secondary);
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
     font-style: italic;
 }
-
 #modalDescricao p {
     color: var(--text);
     line-height: 1.7;
     font-size: 1rem;
+}
+
+#experiencia ul {
+    list-style: none;
+    padding-left: 0;
+}
+#experiencia li {
+    background: #2a2f33;
+    border-radius: 8px;
+    padding: 1.2rem;
+    margin-bottom: 1.2rem;
+    border-left: 4px solid var(--primary);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+#experiencia li:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+}
+#experiencia li p {
+    color: var(--text-secondary);
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    line-height: 1.6;
 }
