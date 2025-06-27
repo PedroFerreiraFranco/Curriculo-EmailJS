@@ -1,3 +1,6 @@
+/* Importa as fontes Poppins e Lato do Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@400;700&family=Poppins:wght@500;700&display=swap');
+
 /* Tema escuro moderno para o currículo de Pedro Franco */
 :root {
     --bg-color: #181a1b;
@@ -17,22 +20,27 @@
     box-sizing: border-box;
 }
 
+/* --- ESTILOS GERAIS E TIPOGRAFIA --- */
 body {
     background: var(--bg-color);
     color: var(--text);
-    font-family: 'Segoe UI', Arial, sans-serif;
+    /* Fonte para textos corridos */
+    font-family: 'Lato', 'Segoe UI', Arial, sans-serif;
     margin: 0;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
-    /* ADICIONADO: Previne a barra de rolagem horizontal indesejada */
     overflow-x: hidden;
 }
 
-/* ADICIONADO: Garante que textos longos quebrem a linha */
 h1, h2, h3, h4, p, a, strong {
     overflow-wrap: break-word;
     word-wrap: break-word;
+}
+
+/* Fonte para títulos */
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Poppins', sans-serif;
 }
 
 header {
@@ -51,6 +59,128 @@ header {
     box-shadow: 0 0 16px #00bfae44;
 }
 
+/* --- NOVA SEÇÃO 'SOBRE MIM' --- */
+
+#sobre {
+    /* Remove a margem padrão para dar espaço ao novo layout */
+    margin-bottom: 4rem; 
+}
+
+.sobre-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap; /* Garante que quebre a linha em telas menores */
+}
+
+.sobre-texto {
+    flex: 1; /* Ocupa o espaço disponível */
+    min-width: 300px; /* Largura mínima antes de quebrar a linha */
+}
+
+.sobre-texto h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+}
+
+.sobre-texto p {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+}
+
+.sobre-imagem {
+    flex: 1;
+    min-width: 300px;
+    position: relative; /* Essencial para o círculo de fundo */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.sobre-imagem img {
+    max-width: 100%;
+    width: 350px; /* Ajuste o tamanho da sua foto conforme necessário */
+    border-radius: 10px; /* Caso a imagem não seja recortada, para suavizar */
+    position: relative; /* Para ficar na frente do círculo */
+    z-index: 2;
+}
+
+/* O Círculo Mágico de Fundo */
+.sobre-imagem::after {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    max-width: 400px; /* Tamanho do círculo */
+    max-height: 400px;
+    background: linear-gradient(45deg, var(--primary), #2d5a55); /* Usando a cor primária com um gradiente */
+    border-radius: 50%;
+    z-index: 1;
+    opacity: 0.5;
+    filter: blur(20px); /* Efeito de desfoque para suavizar */
+}
+
+
+/* --- BOTÕES OPCIONAIS --- */
+.sobre-botoes {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn {
+    padding: 0.8rem 1.5rem;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 700;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: #181a1b;
+}
+
+.btn-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 191, 174, 0.25);
+}
+
+.btn-secondary {
+    background: transparent;
+    border: 2px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    border-color: var(--primary);
+    color: var(--primary);
+}
+
+
+/* --- AJUSTE PARA TELAS MENORES (MOBILE) --- */
+@media (max-width: 768px) {
+    .sobre-container {
+        flex-direction: column; /* Coloca a imagem embaixo do texto */
+    }
+
+    .sobre-texto {
+        text-align: center;
+    }
+
+    .sobre-botoes {
+        justify-content: center;
+    }
+    
+    .sobre-texto h2 {
+      font-size: 2rem;
+    }
+}
+
 h1 {
     margin: 0.2em 0 0.1em 0;
     font-size: 2.2rem;
@@ -62,15 +192,20 @@ header p {
     font-size: 1.1rem;
 }
 
-/* --- ESTILOS DO MENU (MOBILE-FIRST) --- */
+/* --- NAVEGAÇÃO E MENU (STICKY HEADER) --- */
 nav {
+    /* Menu fixo no topo */
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    
     background: var(--container-bg);
     box-shadow: 0 2px 8px #0002;
     display: flex;
     justify-content: flex-end;
     align-items: center;
     padding: 0.5rem 1rem;
-    height: 60px; /* Altura fixa para alinhar melhor o botão */
+    height: 60px;
 }
 
 .hamburger {
@@ -83,9 +218,8 @@ nav {
     border: none;
     cursor: pointer;
     padding: 0;
-    /* ADICIONADO: Garante que o botão fique acima do menu overlay */
-    z-index: 11; 
-    position: relative; /* Mudado para relative para o z-index funcionar bem aqui */
+    z-index: 11;
+    position: relative;
 }
 .hamburger .bar {
     width: 2.25rem;
@@ -95,9 +229,8 @@ nav {
     transition: all 0.3s linear;
 }
 
-/* Animação do botão quando o menu está ativo */
 .hamburger.is-active .bar {
-    background-color: var(--primary); /* Muda a cor para indicar que está ativo */
+    background-color: var(--primary);
 }
 .hamburger.is-active .bar:nth-child(1) {
     transform: translateY(10px) rotate(45deg);
@@ -109,33 +242,25 @@ nav {
     transform: translateY(-10px) rotate(-45deg);
 }
 
-/* -- REFORMULAÇÃO DO MENU DROPDOWN -- */
 #nav-menu {
     display: none;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem; /* Espaçamento entre os links */
-    
-    /* MUDADO: Agora é um overlay de tela cheia */
+    gap: 1.5rem;
     position: fixed;
     top: 0;
     left: 0;
     width: 100vw;
     height: 100vh;
-    
-    /* Fundo com transparência e desfoque */
     background: rgba(24, 26, 27, 0.95);
     backdrop-filter: blur(8px);
     -webkit-backdrop-filter: blur(8px);
-
-    /* Garante que o menu fique acima do conteúdo principal */
     z-index: 10;
 }
 #nav-menu.is-active {
     display: flex;
 }
-
 #nav-menu li {
     padding: 0;
     text-align: center;
@@ -144,17 +269,16 @@ nav {
     color: var(--text);
     text-decoration: none;
     font-weight: 500;
-    font-size: 1.8rem; /* Letras maiores para o overlay */
+    font-size: 1.8rem;
     transition: color 0.2s;
 }
 #nav-menu a:hover {
     color: var(--primary);
 }
 
-
 /* --- LAYOUT PRINCIPAL E SEÇÕES --- */
 main {
-    flex: 1; 
+    flex: 1;
     max-width: 900px;
     margin: 1.5rem auto;
     background: var(--container-bg);
@@ -164,24 +288,19 @@ main {
     width: 100%;
 }
 
-/* --- MEDIA QUERIES PARA TELAS MAIORES --- */
 @media (min-width: 768px) {
     h1 {
         font-size: 2.5rem;
     }
-
     nav {
         justify-content: center;
         padding: 0;
         height: auto;
     }
-    
     .hamburger {
         display: none;
     }
-
     #nav-menu {
-        /* Reverte para o estilo de desktop */
         display: flex;
         position: static;
         flex-direction: row;
@@ -195,16 +314,14 @@ main {
         z-index: 1;
     }
     #nav-menu a {
-        font-size: 1rem; /* Volta ao tamanho normal */
+        font-size: 1rem;
     }
-
     main {
         padding: 2rem;
         margin: 2rem auto;
     }
 }
 
-/* O restante do CSS permanece o mesmo */
 section {
     margin-bottom: 2.5rem;
 }
@@ -223,6 +340,7 @@ strong {
     color: var(--primary);
 }
 
+/* --- FORMULÁRIO --- */
 form {
     display: flex;
     flex-direction: column;
@@ -245,7 +363,7 @@ input:focus, textarea:focus {
     box-shadow: 0 0 0 2px #00bfae33;
 }
 button[type="submit"] {
-    background: var(--button-bg);
+    background: linear-gradient(45deg, var(--button-bg), var(--button-hover));
     color: #fff;
     border: none;
     border-radius: 6px;
@@ -253,33 +371,72 @@ button[type="submit"] {
     font-size: 1.1rem;
     font-weight: bold;
     cursor: pointer;
-    transition: background 0.2s, transform 0.2s;
+    transition: all 0.3s ease;
     box-shadow: 0 2px 8px #00bfae22;
 }
 button[type="submit"]:hover {
-    background: var(--button-hover);
+    background: linear-gradient(45deg, var(--button-hover), var(--button-bg));
     transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 4px 12px #00bfae33;
 }
 #formMessage {
     margin-top: 1rem;
     font-size: 1.1rem;
     min-height: 1.5em;
 }
-footer {
-    background: var(--container-bg);
-    color: var(--text-secondary);
-    text-align: center;
-    padding: 1.2rem 0 1rem 0;
-    font-size: 1rem;
-    border-top: 1px solid var(--border);
-    margin-top: 2rem;
+
+/* --- ANIMAÇÕES DE ENTRADA --- */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
+/* A animação será controlada pelo script.js */
+section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
 section.visible {
     opacity: 1;
     transform: translateY(0);
 }
 
+/* Animação em cascata para itens de listas e ícones */
+section.visible #experiencia li,
+section.visible .tech-icon {
+  opacity: 0;
+  animation: fadeInUp 0.5s ease-out forwards;
+}
+
+section.visible #experiencia li:nth-child(1) { animation-delay: 0.1s; }
+section.visible #experiencia li:nth-child(2) { animation-delay: 0.2s; }
+section.visible #experiencia li:nth-child(3) { animation-delay: 0.3s; }
+
+section.visible .tecnologias-usadas .tech-icon:nth-child(1) { animation-delay: 0.1s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(2) { animation-delay: 0.2s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(3) { animation-delay: 0.3s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(4) { animation-delay: 0.4s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(5) { animation-delay: 0.5s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(6) { animation-delay: 0.6s; }
+section.visible .tecnologias-usadas .tech-icon:nth-child(7) { animation-delay: 0.7s; }
+
+section.visible .minhas-habilidades .tech-icon:nth-child(1) { animation-delay: 0.1s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(2) { animation-delay: 0.2s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(3) { animation-delay: 0.3s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(4) { animation-delay: 0.4s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(5) { animation-delay: 0.5s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(6) { animation-delay: 0.6s; }
+section.visible .minhas-habilidades .tech-icon:nth-child(7) { animation-delay: 0.7s; }
+
+
+/* --- SEÇÃO DE EVENTOS E MODAL --- */
 .eventos-controles {
     margin-bottom: 1.5rem;
     text-align: right;
@@ -316,8 +473,8 @@ section.visible {
     cursor: pointer;
 }
 .evento-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 8px 30px rgba(0, 191, 174, 0.2);
 }
 .evento-card .card-img {
     width: 100%;
@@ -340,6 +497,7 @@ section.visible {
 .evento-card .card-descricao {
     display: none;
 }
+
 .modal-overlay {
     position: fixed;
     top: 0;
@@ -410,6 +568,7 @@ section.visible {
     font-size: 1rem;
 }
 
+/* --- SEÇÃO DE EXPERIÊNCIA --- */
 #experiencia ul {
     list-style: none;
     padding-left: 0;
@@ -432,4 +591,62 @@ section.visible {
     margin-top: 0.5rem;
     margin-bottom: 0;
     line-height: 1.6;
+}
+
+/* --- SEÇÃO DE TECNOLOGIAS --- */
+#tecnologias {
+    padding-top: 1rem;
+}
+.tecnologias-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2.5rem;
+}
+#tecnologias h3 {
+    color: var(--text);
+    font-size: 1.3rem;
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid var(--border);
+}
+.icon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 2rem 1.5rem;
+    justify-items: center;
+}
+.tech-icon {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.6rem;
+    text-align: center;
+    transition: transform 0.3s ease;
+}
+.tech-icon:hover {
+    transform: scale(1.1);
+}
+.tech-icon img {
+    width: 48px;
+    height: 48px;
+}
+.tech-icon span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+.tech-icon:hover span {
+    color: var(--primary);
+}
+
+/* --- RODAPÉ --- */
+footer {
+    background: var(--container-bg);
+    color: var(--text-secondary);
+    text-align: center;
+    padding: 1.2rem 0 1rem 0;
+    font-size: 1rem;
+    border-top: 1px solid var(--border);
+    margin-top: 2rem;
 }
