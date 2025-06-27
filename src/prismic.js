@@ -1,7 +1,7 @@
 import * as prismic from 'https://cdn.skypack.dev/@prismicio/client';
 
 // --- CONFIGURAÇÃO ---
-const repositoryName = 'curriculo';
+const repositoryName = 'curriculo'; // O nome do seu repositório está correto aqui!
 const client = prismic.createClient(repositoryName);
 
 // --- ELEMENTOS DO DOM ---
@@ -74,7 +74,7 @@ function renderEventos(eventos) {
         
         htmlInterno += `<div class="card-texto">`;
         htmlInterno += prismic.asHTML(evento.titulo);
-        htmlInterno += `<div class="card-descricao">${prismic.asHTML(evento.descricao)}</div>`;
+        htmlInterno += `<div class="card-descricao" style="display: none;">${prismic.asHTML(evento.descricao)}</div>`; // Esconde a descrição no card
         htmlInterno += `</div>`;
 
         card.innerHTML = htmlInterno;
@@ -120,7 +120,7 @@ if (eventosContainer) {
 
 if (sortBtn) {
     sortBtn.addEventListener('click', () => {
-        const currentOrder = sortBtn.dataset.order;
+        const currentOrder = sortBtn.dataset.order || 'desc';
         eventosData.reverse();
         renderEventos(eventosData);
 

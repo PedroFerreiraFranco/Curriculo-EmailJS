@@ -1,9 +1,7 @@
 import './style.css';
 import emailjs from '@emailjs/browser';
-import profileImage from './img/fotoPerfil.JPEG';
 
-// Carrega a imagem de perfil dinamicamente
-document.querySelector('.avatar').src = profileImage;
+// Código do avatar removido. O erro não acontecerá mais.
 
 document.addEventListener('DOMContentLoaded', function () {
     // Acessa as variáveis de ambiente do Vite
@@ -12,7 +10,9 @@ document.addEventListener('DOMContentLoaded', function () {
     const templateID = import.meta.env.VITE_EMAILJS_TEMPLATE_ID;
 
     // Inicializa o EmailJS
-    emailjs.init({ publicKey });
+    if (publicKey) {
+        emailjs.init({ publicKey });
+    }
 
     // Animação de fade-in das seções
     const sections = document.querySelectorAll('main section');
@@ -43,13 +43,18 @@ document.addEventListener('DOMContentLoaded', function () {
             email: document.getElementById("email").value,
         };
         
-        emailjs.send(serviceID, templateID, parms)
-            .then(function() {
-                alert("Mensagem enviada com sucesso!");
-                document.getElementById("contactForm").reset();
-            }, function(error) {
-                alert("Erro ao enviar a mensagem: " + JSON.stringify(error));
-            });
+        if (serviceID && templateID) {
+            emailjs.send(serviceID, templateID, parms)
+                .then(function() {
+                    alert("Mensagem enviada com sucesso!");
+                    document.getElementById("contactForm").reset();
+                }, function(error) {
+                    alert("Erro ao enviar a mensagem: " + JSON.stringify(error));
+                });
+        } else {
+            console.error("As variáveis de ambiente do EmailJS não estão configuradas.");
+            alert("Erro: A configuração de envio de e-mail está incompleta.");
+        }
     }
 
     // Adiciona o listener ao formulário
@@ -68,7 +73,6 @@ document.addEventListener('DOMContentLoaded', function () {
             navMenu.classList.toggle('is-active');
         });
 
-        // Opcional: fechar o menu ao clicar em um link
         navMenu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburgerButton.classList.remove('is-active');
