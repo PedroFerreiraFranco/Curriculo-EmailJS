@@ -215,6 +215,12 @@ nav {
     transition: all 0.3s linear;
 }
 
+.hamburger.is-active {
+    position: fixed;
+    top: 25px;
+    right: 1rem;
+}
+
 .hamburger.is-active .bar {
     background-color: var(--primary);
 }
